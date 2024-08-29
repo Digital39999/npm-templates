@@ -1,0 +1,17 @@
+{
+	"entryFile": "src/tsoa.ts",
+	"noImplicitAdditionalProperties": "throw-on-extras",
+	"controllerPathGlobs": [
+		"src/controllers/**/*.ts"
+	],
+	"spec": {
+		"outputDirectory": "dist",
+		"outputFile": "openapi.json",
+		"specVersion": 3
+	},
+	"routes": {
+		"routesDir": "src/routes",
+		"outputDirectory": "dist",
+		"basePath": "/"
+	}
+}

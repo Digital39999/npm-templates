@@ -1,0 +1,37 @@
+{
+	"version": "1.0.0",
+	"name": "digital-templates",
+	"author": "Digital39999",
+	"scripts": {
+		"lint": "eslint src --fix --ext .ts",
+		"build": "tsc --build",
+		"watch": "tsc --watch",
+		"packages": "pnpm ts-node src/packages.ts"
+	},
+	"bin": {
+		"digital-template": "./dist/index.js"
+	},
+	"repository": "https://github.com/Digital39999/templates",
+	"main": "dist/index.js",
+	"type": "commonjs",
+	"license": "MIT",
+	"dependencies": {
+		"@inquirer/prompts": "^5.3.8",
+		"discord.js": "^14.14.1",
+		"dotenv": "^16.3.1",
+		"status-sharding": "^1.5.4",
+		"ts-node": "^10.9.2",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@types/node": "^20.14.13",
+		"@typescript-eslint/eslint-plugin": "^6.18.0",
+		"@typescript-eslint/parser": "^6.18.0",
+		"eslint": "^8.56.0",
+		"npm-check-updates": "^16.14.12",
+		"typescript": "^5.3.3"
+	},
+	"engines": {
+		"node": ">=20.2.0"
+	}
+}

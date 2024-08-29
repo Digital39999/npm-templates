@@ -1,0 +1,12 @@
+version: '3'
+services:
+  bot-name:
+    container_name: bot-name
+    pull_policy: build
+    network_mode: bridge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - stack.env

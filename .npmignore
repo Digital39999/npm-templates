@@ -1,0 +1,17 @@
+/src/
+node_modules/
+
+!.gitignore
+!.npmignore
+
+/.gitignore
+/.eslintrc.json
+/.npmignore
+
+pnpm-lock.yaml
+/tsconfig.json
+
+templates/**/dist/
+templates/**/node_modules/
+
+*.tsbuildinfo
