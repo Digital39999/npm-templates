@@ -56,13 +56,7 @@ export function colorize(text: string, color: keyof typeof colors): string {
 	return colors[color] + text + colors.reset;
 }
 
-export default function LoggerModule(logType: string, input: string, color: ('black' | 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white' | 'grey'), newLine?: boolean, log = true): string | null {
-	const useTime = true;
-
-	const type: string = logType ? ' ' + colorize(` ${logType} `, `BG${color}Bright`) : ' ';
-	const text: string = ' ' + colorize(input, `${color}Bright`);
-	const time: string = useTime ? colorize(` ${new Date().toLocaleString('en-UK', { timeZone: 'Europe/Zagreb' }).split(', ')[1]} `, `BG${color}Bright`) : '';
-
-	if (log) console.log((newLine ? '\n' : '') + colorize(' • ', `BG${color}Bright`) + ' ' + time + type + text);
-	return log ? null : (newLine ? '\n' : '') + colorize(' • ', `BG${color}Bright`) + ' ' + time + type + text;
+export default function LoggerModule(input: string, color: ('black' | 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white' | 'grey'), newLineBefore = false) {
+	if (newLineBefore) console.log();
+	console.log(colorize(input, `${color}Bright`));
 }

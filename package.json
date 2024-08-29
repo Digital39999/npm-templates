@@ -1,5 +1,5 @@
 {
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"name": "digital-templates",
 	"author": "Digital39999",
 	"scripts": {
@@ -9,9 +9,9 @@
 		"packages": "pnpm ts-node src/packages.ts"
 	},
 	"bin": {
-		"digital-template": "./dist/index.js"
+		"digital-templates": "./dist/index.js"
 	},
-	"repository": "https://github.com/Digital39999/templates",
+	"repository": "https://github.com/Digital39999/npm-templates",
 	"main": "dist/index.js",
 	"type": "commonjs",
 	"license": "MIT",

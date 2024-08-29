@@ -1,4 +1,4 @@
-import { addIgnoreFiles, installDependencies } from './packages';
+import { addIgnoreFiles, copyEverything, installDependencies } from './utils';
 import { input, select, confirm } from '@inquirer/prompts';
 import LoggerModule from './logger';
 import fs from 'fs/promises';
@@ -8,7 +8,7 @@ import path from 'path';
 	console.clear();
 
 	const returnError = (message: string) => {
-		LoggerModule('Error', message, 'red');
+		LoggerModule(message, 'red');
 		process.exit(1);
 	};
 
@@ -27,42 +27,29 @@ import path from 'path';
 		choices: templates.map((template) => ({ name: formatName(template), value: template })),
 	});
 
-	const projectDir = await input({
-		message: 'Enter the project directory:',
-	});
+	const projectDir = await input({ message: 'Enter the project directory:' });
 
 	const src = path.resolve(__dirname, `../templates/${template}`);
 	const dest = path.resolve(process.cwd(), projectDir);
 
-	const exists = await fs.stat(dest).then(() => true).catch(() => false);
-	if (exists) {
-		const overwrite = await confirm({ message: 'The directory already exists. Do you want to overwrite it?' });
+	const hasFiles = await fs.readdir(dest).then((files) => files.length > 0).catch(() => false);
+	if (hasFiles) {
+		const overwrite = await confirm({ message: 'The directory is not empty, do you want to overwrite it?' });
 		if (!overwrite) returnError('Aborted.');
-		else await fs.rm(dest, { recursive: true });
+		else {
+			await fs.rm(dest, { recursive: true });
+			await fs.mkdir(dest, { recursive: true });
+		}
 	}
 
-	const copy = async (src: string, dest: string) => {
-		await fs.mkdir(dest, { recursive: true });
-		await fs.readdir(src).then(async (items) => {
-			for (const item of items) {
-				const srcPath = path.join(src, item);
-				const destPath = path.join(dest, item);
-				const stat = await fs.stat(srcPath);
-
-				if (stat.isDirectory()) {
-					await copy(srcPath, destPath);
-				} else {
-					await fs.copyFile(srcPath, destPath);
-				}
-			}
-		});
-	};
-
-	await copy(src, dest);
+	await copyEverything(src, dest);
 	await addIgnoreFiles(dest);
 
-	LoggerModule('Info', 'Initialized project, installing dependencies..', 'cyan');
+	LoggerModule('Initialized project, installing dependencies..', 'cyan', true);
 	await installDependencies(dest, packageManager);
 
-	LoggerModule('Success', 'Project initialized successfully.', 'green');
-})().catch(console.error);
+	LoggerModule('Project initialized successfully.', 'green');
+})().catch((err) => {
+	if ('name' in err && err.name === 'ExitPromptError') return;
+	console.error(err);
+});
