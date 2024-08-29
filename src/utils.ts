@@ -54,8 +54,10 @@ export async function addIgnoreFiles(where: string) {
 		pnpm-lock.yaml
 	`;
 
-	await fs.writeFile(path.join(where, '.npmignore'), npmIgnore);
-	await fs.writeFile(path.join(where, '.gitignore'), gitIgnore);
+	const removeLeadingTabs = (str: string) => str.replace(/\t/g, '');
+
+	await fs.writeFile(path.join(where, '.npmignore'), removeLeadingTabs(npmIgnore));
+	await fs.writeFile(path.join(where, '.gitignore'), removeLeadingTabs(gitIgnore));
 
 	LoggerModule('Added .npmignore and .gitignore files.', 'cyan');
 }
